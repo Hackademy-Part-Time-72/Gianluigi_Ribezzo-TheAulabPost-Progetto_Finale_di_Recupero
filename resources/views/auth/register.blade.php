@@ -46,7 +46,11 @@
                                 <label for="password" class="form-label">Password <span class="text-danger">*</span></label>
                                 <input type="password" name="password" id="password" class="form-control @error('password') is-invalid @enderror" required>
                                 @error('password')
-                                <span class="invalid-feedback">{{ $message }}</span>
+                                    <span class="invalid-feedback">{{ $message }}</span>
+                                @else
+                                    <div class="form-text text-muted small">
+                                        Minimo 8 caratteri &middot; Una maiuscola &middot; Un numero &middot; Un simbolo (es. !, @, #, $, %)
+                                    </div>
                                 @enderror
                             </div>
                             
