@@ -65,8 +65,8 @@ Permette a scrittori di pubblicare articoli, a revisori di approvarli e ad ammin
 
 **1. Clona il repository**
 ```bash
-git clone https://github.com/gianluigiribezzo3582-al/Progetto_Finale-Ribezzo.git
-cd Progetto_Finale-Ribezzo
+git clone <url-del-repository> nome-cartella
+cd nome-cartella
 ```
 
 **2. Installa le dipendenze PHP**
@@ -115,7 +115,7 @@ php artisan storage:link
 php artisan serve
 ```
 
-Il sito sarà disponibile su [http://127.0.0.1:8000](http://127.0.0.1:8000).
+Il sito sarà disponibile in localhost al link [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
 ---
 
