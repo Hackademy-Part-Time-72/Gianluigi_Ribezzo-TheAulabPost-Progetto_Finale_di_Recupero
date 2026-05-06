@@ -56,16 +56,22 @@ Permette a scrittori di pubblicare articoli, a revisori di approvarli e ad ammin
 ## Guida all'installazione
 
 ### Prerequisiti
-- PHP >= 8.3
-- Composer
-- MySQL
-- Node.js (opzionale, per assets)
+
+Prima di iniziare assicurati di avere installato sul tuo PC:
+
+| Strumento | Note |
+|---|---|
+| **Git** | Per clonare il repository |
+| **PHP >= 8.3** | Con le estensioni: `mbstring`, `pdo_mysql`, `openssl`, `gd`, `tokenizer`, `xml` |
+| **Composer** | Gestore dipendenze PHP — [getcomposer.org](https://getcomposer.org) |
+| **MySQL** | Server database (o MariaDB) |
+| **Node.js >= 18 + npm** | Necessario per compilare Bootstrap e gli altri asset CSS/JS con Vite |
 
 ### Passaggi
 
 **1. Clona il repository**
 ```bash
-git clone <url-del-repository> nome-cartella
+git clone https://github.com/Hackademy-Part-Time-72/Gianluigi_Ribezzo-TheAulabPost-Progetto_Finale_di_Recupero.git nome-cartella
 cd nome-cartella
 ```
 
@@ -100,17 +106,25 @@ MAIL_PASSWORD=la_tua_password
 MAIL_FROM_ADDRESS="admin@theaulabpost.it"
 ```
 
-**6. Esegui le migrazioni e il seeding**
+**6. Installa le dipendenze Node e compila gli asset**
+```bash
+npm install
+npm run build
+```
+
+> Per lo sviluppo puoi usare `npm run dev` al posto di `npm run build`, che avvia Vite in modalità watch con hot-reload.
+
+**7. Esegui le migrazioni e il seeding**
 ```bash
 php artisan migrate --seed
 ```
 
-**7. Crea il link simbolico per lo storage**
+**8. Crea il link simbolico per lo storage**
 ```bash
 php artisan storage:link
 ```
 
-**8. Avvia il server di sviluppo**
+**9. Avvia il server di sviluppo**
 ```bash
 php artisan serve
 ```
