@@ -65,7 +65,7 @@ Permette a scrittori di pubblicare articoli, a revisori di approvarli e ad ammin
 
 **1. Clona il repository**
 ```bash
-git clone <url-del-repository> nome-cartella
+git clone https://github.com/Hackademy-Part-Time-72/Gianluigi_Ribezzo-TheAulabPost-Progetto_Finale_di_Recupero.git nome-cartella
 cd nome-cartella
 ```
 
