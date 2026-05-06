@@ -1,5 +1,5 @@
 <?php
-
+ //questo seeder è stato generato con l'aiuto di Claude Code di Anthropic
 namespace Database\Seeders;
 
 use App\Models\Article;

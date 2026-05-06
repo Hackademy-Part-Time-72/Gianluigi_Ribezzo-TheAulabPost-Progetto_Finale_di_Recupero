@@ -69,6 +69,22 @@
                         @enderror
                     </div>
 
+                    @if($tags->isNotEmpty())
+                    <div class="mb-3">
+                        <label class="form-label">Tag</label>
+                        @php $selectedTags = old('tags', $article->tags->pluck('id')->toArray()); @endphp
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach($tags as $tag)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag_{{ $tag->id }}"
+                                        {{ in_array($tag->id, $selectedTags) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     <div class="mt-3 d-flex justify-content-center gap-3">
                         <a href="{{ route('writer.dashboard') }}" class="btn btn-outline-secondary">Annulla</a>
                         <button type="submit" class="btn btn-brand">Salva e rimanda in revisione</button>

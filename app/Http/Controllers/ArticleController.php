@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Tag;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +18,7 @@ class ArticleController extends Controller implements HasMiddleware
     public static function middleware(): array
     {
         return [
-            new Middleware('auth', except: ['index', 'show', 'byCategory', 'byUser']),
+            new Middleware('auth', except: ['index', 'show', 'byCategory', 'byUser', 'search']),
             new Middleware('userIsWriter', only: ['create', 'store', 'edit', 'update', 'destroy']),
         ];
     }
@@ -26,25 +27,36 @@ class ArticleController extends Controller implements HasMiddleware
     {
         $perPage = $request->input('perPage', 12);
         $search = $request->input('search');
+        $categoryId = $request->input('category');
 
         $query = Article::where('is_accepted', true);
 
         if ($search) {
-            $query->whereHas('user', function($q) use ($search) {
-                $q->where('first_name', 'LIKE', "%$search%")
-                  ->orWhere('last_name', 'LIKE', "%$search%")
-                  ->orWhere('username', 'LIKE', "%$search%");
+            $query->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', "%{$search}%")
+                  ->orWhere('subtitle', 'LIKE', "%{$search}%")
+                  ->orWhere('body', 'LIKE', "%{$search}%")
+                  ->orWhereHas('tags', fn($q) => $q->where('name', 'LIKE', "%{$search}%"))
+                  ->orWhereHas('user', fn($q) => $q->where('first_name', 'LIKE', "%{$search}%")
+                      ->orWhere('last_name', 'LIKE', "%{$search}%")
+                      ->orWhere('username', 'LIKE', "%{$search}%"));
             });
         }
 
+        if ($categoryId) {
+            $query->where('category_id', $categoryId);
+        }
+
         $articles = $query->orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
-        return view('article.index', compact('articles'));
+        $categories = Category::orderBy('name')->get();
+        return view('article.index', compact('articles', 'categories'));
     }
 
     public function create()
     {
         $categories = Category::all();
-        return view('article.create', compact('categories'));
+        $tags = Tag::orderBy('name')->get();
+        return view('article.create', compact('categories', 'tags'));
     }
 
     public function store(Request $request)
@@ -73,6 +85,8 @@ class ArticleController extends Controller implements HasMiddleware
             ]);
         }
 
+        $article->tags()->sync($request->input('tags', []));
+
         return redirect(route('homepage'))->with('message', 'Articolo inviato per la revisione');
     }
 
@@ -90,6 +104,24 @@ class ArticleController extends Controller implements HasMiddleware
         return view('article.by-category', compact('articles', 'category'));
     }
 
+    public function search(Request $request)
+    {
+        $query = $request->input('query', '');
+        if (!$query) {
+            return redirect(route('article.index'));
+        }
+        $articles = Article::where('is_accepted', true)
+            ->where(function ($q) use ($query) {
+                $q->where('title', 'LIKE', "%{$query}%")
+                  ->orWhere('subtitle', 'LIKE', "%{$query}%")
+                  ->orWhere('body', 'LIKE', "%{$query}%")
+                  ->orWhereHas('tags', fn($q) => $q->where('name', 'LIKE', "%{$query}%"));
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return view('article.search-index', compact('articles', 'query'));
+    }
+
     public function byUser(User $user)
     {
         $articles = $user->articles()->where('is_accepted', true)->orderBy('created_at', 'desc')->get();
@@ -105,7 +137,8 @@ class ArticleController extends Controller implements HasMiddleware
             return redirect(route('writer.dashboard'))->with('error', 'Non puoi modificare un articolo in attesa di revisione.');
         }
         $categories = Category::all();
-        return view('article.edit', compact('article', 'categories'));
+        $tags = Tag::orderBy('name')->get();
+        return view('article.edit', compact('article', 'categories', 'tags'));
     }
 
     public function update(Request $request, Article $article)
@@ -143,6 +176,8 @@ class ArticleController extends Controller implements HasMiddleware
                 'image' => $request->file('image')->store('articles', 'public'),
             ]);
         }
+
+        $article->tags()->sync($request->input('tags', []));
 
         return redirect(route('writer.dashboard'))->with('message', 'Articolo aggiornato e rimandato in revisione.');
     }

@@ -12,6 +12,7 @@ Route::get('/', [PublicController::class, 'homepage'])->name('homepage');
 
 
 Route::get('/indice', [ArticleController::class, 'index'])->name('article.index');
+Route::get('/search', [ArticleController::class, 'search'])->name('article.search');
 Route::get('/leggi/{article:slug}', [ArticleController::class, 'show'])->name('article.show');
 Route::get('/article/category/{category}', [ArticleController::class, 'byCategory'])->name('article.byCategory');
 Route::get('/author/{user}/{name?}', [ArticleController::class, 'byUser'])->name('article.byUser');
@@ -39,6 +40,9 @@ Route::middleware('userIsAdmin')->prefix('admin')->group(function () {
     Route::post('/approve/admin/{user}',   [AdminController::class, 'approveAdmin'])->name('admin.approveAdmin');
     Route::post('/approve/revisor/{user}', [AdminController::class, 'approveRevisor'])->name('admin.approveRevisor');
     Route::post('/approve/writer/{user}',  [AdminController::class, 'approveWriter'])->name('admin.approveWriter');
+    Route::post('/tag',           [AdminController::class, 'storeTag'])->name('admin.storeTag');
+    Route::delete('/tag/{tag}',   [AdminController::class, 'destroyTag'])->name('admin.destroyTag');
+    Route::delete('/category/{category}', [AdminController::class, 'destroyCategory'])->name('admin.destroyCategory');
 });
 
 // Rotte per Revisori

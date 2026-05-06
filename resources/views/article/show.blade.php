@@ -12,10 +12,11 @@
                     <img src="{{ Storage::url($article->image) }}" class="img-fluid rounded shadow-sm mb-4 w-100" alt="{{ $article->title }}">
                 @endif
                 
-                <div class="d-flex justify-content-between align-items-center mb-4">
+                <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-center gap-2 mb-4">
                     <div>
                         <a href="{{ route('article.byCategory', ['category' => $article->category]) }}" class="badge bg-accent text-dark small fw-bold text-uppercase text-decoration-none">{{ $article->category->name }}</a>
                         <span class="text-muted ms-2">Pubblicato il {{ $article->created_at->format('d/m/Y') }}</span>
+                        <span class="text-muted ms-2"><i class="bi bi-clock me-1"></i>{{ $article->readingTime() }} min di lettura</span>
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="bi bi-person-circle fs-4 me-2 text-brand"></i>
@@ -26,6 +27,15 @@
                 </div>
 
                 <h4 class="text-muted mb-4">{{ $article->subtitle }}</h4>
+
+                @if($article->tags->isNotEmpty())
+                    <div class="mb-4">
+                        @foreach($article->tags as $tag)
+                            <span class="badge bg-secondary me-1">{{ $tag->name }}</span>
+                        @endforeach
+                    </div>
+                @endif
+
                 <div class="article-body fs-5 opacity-75">
                     {{ $article->body }}
                 </div>

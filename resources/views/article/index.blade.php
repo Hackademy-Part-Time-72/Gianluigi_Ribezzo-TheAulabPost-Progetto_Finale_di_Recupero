@@ -6,13 +6,19 @@
     </div>
 
     <div class="container my-5 ">
-        <div class="row align-items-center justify-content-between mb-4">
-            <div class="col-md-4">
-                <form action="{{ route('article.index') }}" method="GET" class="d-flex">
-                    <input type="text" name="search" class="form-control form-control-sm me-2" placeholder="Cerca per autore..." value="{{ request('search') }}">
+        <div class="row align-items-center justify-content-between mb-4 g-2">
+            <div class="col-md-7">
+                <form action="{{ route('article.index') }}" method="GET" class="d-flex flex-wrap gap-2">
+                    <input type="text" name="search" class="form-control form-control-sm" placeholder="Cerca tra gli articoli..." value="{{ request('search') }}" style="min-width: 200px; flex: 1;">
+                    <select name="category" class="form-select form-select-sm" style="width: auto;">
+                        <option value="">Tutte le categorie</option>
+                        @foreach($categories as $cat)
+                            <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>{{ $cat->name }}</option>
+                        @endforeach
+                    </select>
                     <button type="submit" class="btn btn-brand btn-sm">Cerca</button>
-                    @if(request('search'))
-                        <a href="{{ route('article.index') }}" class="btn btn-outline-secondary btn-sm ms-2">Reset</a>
+                    @if(request('search') || request('category'))
+                        <a href="{{ route('article.index') }}" class="btn btn-outline-secondary btn-sm">Azzera</a>
                     @endif
                 </form>
             </div>
@@ -20,6 +26,9 @@
                 <form action="{{ route('article.index') }}" method="GET" class="d-flex align-items-center">
                     @if(request('search'))
                         <input type="hidden" name="search" value="{{ request('search') }}">
+                    @endif
+                    @if(request('category'))
+                        <input type="hidden" name="category" value="{{ request('category') }}">
                     @endif
                     <label for="perPage" class="me-2 text-muted small">Mostra:</label>
                     <select name="perPage" id="perPage" class="form-select form-select-sm" style="width: auto;" onchange="this.form.submit()">

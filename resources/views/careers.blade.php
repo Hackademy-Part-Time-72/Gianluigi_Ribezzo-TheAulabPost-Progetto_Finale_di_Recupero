@@ -18,11 +18,11 @@
                 <div class="row g-4 mb-5">
                     <div class="col-md-4">
                         <div class="card h-100 border-0 bg-body-tertiary p-4 shadow-sm">
-                            <h4 class="fw-bold text-brand"><i class="bi bi-pencil-square me-2"></i>Writer</h4>
-                            <p class="small opacity-75">I redattori possono creare articoli, gestire i propri pezzi dalla dashboard e modificarli finché non vengono pubblicati.</p>
+                            <h4 class="fw-bold text-brand"><i class="bi bi-book me-2"></i>Autore</h4>
+                            <p class="small opacity-75">Gli autori possono pubblicare i propri articoli una volta approvati dagli amministratori.</p>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                        <div class="col-md-4">
                         <div class="card h-100 border-0 bg-body-tertiary p-4 shadow-sm">
                             <h4 class="fw-bold text-brand"><i class="bi bi-eye me-2"></i>Revisor</h4>
                             <p class="small opacity-75">I revisori hanno una dashboard dedicata per accettare, rifiutare o rimandare in revisione gli articoli in attesa.</p>
@@ -44,7 +44,7 @@
                                 <form action="{{ route('careers.submit') }}" method="POST">
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="role" class="form-label">Per quale ruolo ti candidi?</label>
+                                        <label for="role" class="form-label">Per quale ruolo vorresti candidarti?</label>
                                         <select name="role" id="role" class="form-control" required>
                                             <option value="" selected disabled>Scegli il ruolo</option>
                                             @if(!Auth::user()->is_admin && Auth::user()->role !== 'requested_admin')
@@ -54,7 +54,7 @@
                                                 <option value="revisor">Revisore</option>
                                             @endif
                                             @if(!Auth::user()->is_writer && Auth::user()->role !== 'requested_writer')
-                                                <option value="writer">Redattore</option>
+                                                <option value="writer">Autore</option>
                                             @endif
                                         </select>
                                     </div>

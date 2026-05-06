@@ -43,9 +43,9 @@
             <div class="row align-items-center py-4">
                 <div class="col-lg-6">
                     <h1 class="display-3 fw-bold text-brand mb-3">Le Storie che Contano</h1>
-                    <p class="fs-5 mb-4 opacity-75">Unisciti alla nostra community di autori e lettori. Esplora contenuti esclusivi su tecnologia, design e innovazione.</p>
+                    <p class="fs-5 mb-4 opacity-75">Economia, politica, sport, cultura, tecnologia e molto altro. Una piattaforma editoriale aperta a ogni voce, ogni argomento, ogni punto di vista.</p>
                     <div class="d-flex gap-3">
-                        <a href="{{ route('article.index') }}" class="btn btn-brand btn-lg px-4">Esplora la Biblioteca Digitale</a>
+                        <a href="{{ route('article.index') }}" class="btn btn-brand btn-lg px-4">Esplora tutti gli articoli</a>
                     </div>
                 </div>
                 <div class="col-lg-6 d-none d-lg-block">

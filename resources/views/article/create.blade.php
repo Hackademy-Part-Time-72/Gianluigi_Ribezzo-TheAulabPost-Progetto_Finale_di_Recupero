@@ -52,6 +52,20 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
+                    @if($tags->isNotEmpty())
+                    <div class="mb-3">
+                        <label class="form-label">Tag</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            @foreach($tags as $tag)
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="tags[]" value="{{ $tag->id }}" id="tag_{{ $tag->id }}"
+                                        {{ in_array($tag->id, old('tags', [])) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="tag_{{ $tag->id }}">{{ $tag->name }}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
                     <div class="mt-3 d-flex justify-content-center">
                         <button type="submit" class="btn btn-brand">Invia il tuo articolo ai revisori</button>
                     </div>

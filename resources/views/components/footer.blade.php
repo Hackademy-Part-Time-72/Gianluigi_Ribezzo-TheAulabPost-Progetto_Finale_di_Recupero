@@ -3,7 +3,7 @@
         <div class="row gy-4">
             <div class="col-md-4 text-md-start">
                 <h4 class="fw-bold text-brand mb-3">The Aulab Post</h4>
-                <p class="small opacity-75">La voce indipendente della community Aulab. Storie di codice, carriera e crescita professionale.</p>
+                <p class="small opacity-75">La voce indipendente della community Aulab. Articoli su economia, cultura, sport, tecnologia e molto altro.</p>
             </div>
             <div class="col-md-4">
                 <h6 class="fw-bold mb-3">Link Utili</h6>

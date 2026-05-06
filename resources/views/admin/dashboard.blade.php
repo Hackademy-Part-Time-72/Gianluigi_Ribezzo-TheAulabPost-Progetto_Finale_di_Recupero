@@ -27,5 +27,10 @@
         <x-requeststable :roleRequests="$revisorRequests" role="revisor" />
         <x-requeststable :roleRequests="$writerRequests" role="writer" />
 
+        <hr class="my-5 opacity-25">
+
+        <x-metainfo-table :items="$tags" type="tag" />
+        <x-metainfo-table :items="$categories" type="category" />
+
     </div>
 </x-layout>
